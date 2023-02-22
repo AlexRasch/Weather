@@ -1,14 +1,25 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System.Diagnostics;
 using System.Net;
 using WebApplication1.Models;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+
 
 namespace WebApplication1.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly ILogger<HomeController> _logger;
+        private readonly IConfiguration _config;
+        private readonly string weatherApiKey;
+        public HomeController(ILogger<HomeController> logger,
+                              IConfiguration config)
+        {
+            _logger = logger;
+            _config = config;
+
+            weatherApiKey = _config["Weather:ServiceApiKey"];
+        }
 
         public ActionResult Index()
         {
@@ -20,13 +31,11 @@ namespace WebApplication1.Controllers
         [ResponseCache(Duration = 360, Location = ResponseCacheLocation.Any)]
         public string Weather()
         {
-            string strApiKey = "244871bd48c098405479a6e7e4971222"; // Should be stored more secure
             int iCnt = 40;
-            //string strCityId = "2701680"; // Karlstad
             string strLon = "13.50357";
             string strLat = "59.379299";
 
-            string strUrl = $"https://api.openweathermap.org/data/2.5/forecast?lat={strLat}&lon={strLon}&cnt={iCnt}&units=metric&lang=SE&appid={strApiKey}";
+            string strUrl = $"https://api.openweathermap.org/data/2.5/forecast?lat={strLat}&lon={strLon}&cnt={iCnt}&units=metric&lang=SE&appid={weatherApiKey}";
 #if DEBUG
             Debug.WriteLine($"Url: {strUrl}");
 #endif
@@ -44,11 +53,7 @@ namespace WebApplication1.Controllers
             }
         }
 
-        private readonly ILogger<HomeController> _logger;
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
