@@ -4,7 +4,6 @@ let strResponse;
 let elemTable;
 
 window.onload = (event) => {
-    console.log("Page is fully loaded");
 
     elemTable = document.getElementById('tblWeather');
 
@@ -31,8 +30,6 @@ function fnDisplay() {
 
     // Da Loop
     var iCurrent = 0;
-    var strOldDate;
-    var iMin, iMax;
 
     for (var i = 0; i < strResponse.list.length; i++) {
 
@@ -41,18 +38,12 @@ function fnDisplay() {
             row.insertCell(0).innerHTML = strResponse.list[i].dt_txt;
 
             //row.insertCell(1).innerHTML = '';
-
             //row.insertCell(2).innerHTML = '';
-
             //row.insertCell(3).innerHTML = '';
-
             //row.insertCell(4).innerHTML = '';
 
             row.insertCell(1).innerHTML = strResponse.list[i].main.temp_min + ' / ' + strResponse.list[i].main.temp_max;
             row.insertCell(2).innerHTML = GetIconUrl(strResponse.list[i].weather[0].icon, strResponse.list[i].weather[0].description);
-            console.log(strResponse.list[i]);
-
-
     }
 }
 
