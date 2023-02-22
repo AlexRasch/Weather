@@ -1,4 +1,4 @@
-﻿const strEndpoint = "https://localhost:7264/weather";
+﻿const strEndpoint = window.location.protocol + '//localhost:'+ window.location.port + '/weather'; //https://localhost:7264/weather
 let strResponse;
 
 let elemTable;
@@ -13,7 +13,10 @@ window.onload = (event) => {
         .then((out) => {
             strResponse = out;
             fnDisplay();
-        }).catch(err => console.error(err));
+        }).catch(err => {
+            console.log('Error', strResponse);
+            console.error(err)
+        });
 };
 
 
